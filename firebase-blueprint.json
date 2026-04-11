@@ -1,0 +1,155 @@
+{
+  "entities": {
+    "MenuItem": {
+      "title": "MenuItem",
+      "description": "A dish or item on the restaurant menu",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the dish" },
+        "description": { "type": "string", "description": "Description of the dish" },
+        "price": { "type": "number", "description": "Price in Naira" },
+        "category": { "type": "string", "description": "Category (e.g., Burgers, Sides)" },
+        "imageUrl": { "type": "string", "description": "URL of the dish image" },
+        "isAvailable": { "type": "boolean", "description": "Whether the item is currently available" },
+        "order": { "type": "number", "description": "Order for sorting" }
+      },
+      "required": ["name", "price", "category", "isAvailable"]
+    },
+    "Reservation": {
+      "title": "Reservation",
+      "description": "A table reservation",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Customer name" },
+        "phone": { "type": "string", "description": "Customer phone number" },
+        "email": { "type": "string", "description": "Customer email" },
+        "date": { "type": "string", "description": "Reservation date (YYYY-MM-DD)" },
+        "time": { "type": "string", "description": "Reservation time (HH:MM)" },
+        "guests": { "type": "number", "description": "Number of guests" },
+        "specialRequests": { "type": "string", "description": "Any special requests" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"], "description": "Reservation status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "phone", "date", "time", "guests", "status"]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "A blog post or announcement",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Post title" },
+        "slug": { "type": "string", "description": "URL slug" },
+        "content": { "type": "string", "description": "Post content (HTML or Markdown)" },
+        "excerpt": { "type": "string", "description": "Short excerpt" },
+        "imageUrl": { "type": "string", "description": "Featured image URL" },
+        "category": { "type": "string", "description": "Post category" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "Tags" },
+        "status": { "type": "string", "enum": ["draft", "published"], "description": "Post status" },
+        "publishedAt": { "type": "string", "format": "date-time", "description": "Publish timestamp" }
+      },
+      "required": ["title", "slug", "content", "status"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "A customer review",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Customer name" },
+        "review": { "type": "string", "description": "Review text" },
+        "rating": { "type": "number", "description": "Star rating (1-5)" },
+        "date": { "type": "string", "description": "Date of review" },
+        "imageUrl": { "type": "string", "description": "Customer image URL" },
+        "isActive": { "type": "boolean", "description": "Whether to show on site" }
+      },
+      "required": ["name", "review", "rating", "isActive"]
+    },
+    "Contact": {
+      "title": "Contact",
+      "description": "A contact form submission",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Sender name" },
+        "email": { "type": "string", "description": "Sender email" },
+        "subject": { "type": "string", "description": "Message subject" },
+        "message": { "type": "string", "description": "Message content" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "email", "subject", "message"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global site settings",
+      "type": "object",
+      "properties": {
+        "whatsappNumber": { "type": "string" },
+        "whatsappMessage": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A food order",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "orderType": { "type": "string", "enum": ["delivery", "takeaway"] },
+        "items": { "type": "array", "items": { "type": "object" } },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed", "cancelled"] },
+        "deliveryAddress": { "type": "string" },
+        "pickupTime": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "phoneNumber", "orderType", "items", "total", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the system with role-based access",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "staff"] },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "menuItems": {
+      "schema": { "$ref": "#/entities/MenuItem" },
+      "description": "Collection of menu items"
+    },
+    "reservations": {
+      "schema": { "$ref": "#/entities/Reservation" },
+      "description": "Collection of table reservations"
+    },
+    "blogPosts": {
+      "schema": { "$ref": "#/entities/BlogPost" },
+      "description": "Collection of blog posts"
+    },
+    "testimonials": {
+      "schema": { "$ref": "#/entities/Testimonial" },
+      "description": "Collection of customer testimonials"
+    },
+    "contacts": {
+      "schema": { "$ref": "#/entities/Contact" },
+      "description": "Collection of contact form submissions"
+    },
+    "settings": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "Global settings document (usually just one doc 'global')"
+    },
+    "orders": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Collection of food orders"
+    },
+    "users": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Collection of users and their roles"
+    }
+  }
+}

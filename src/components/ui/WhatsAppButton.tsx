@@ -1,0 +1,19 @@
+import { MessageCircle } from 'lucide-react';
+
+export default function WhatsAppButton() {
+  const whatsappNumber = "+2348165117588"; // Fallback
+  const message = "Hi Ama's Food & Bite, I'd like to place an order.";
+  const url = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:bg-[#1ebe57] transition-colors z-50 flex items-center justify-center animate-bounce"
+      aria-label="Order now"
+    >
+      <MessageCircle size={28} />
+    </a>
+  );
+}

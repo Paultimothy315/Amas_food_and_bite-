@@ -1,0 +1,138 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+         (request.auth.token.email in ["ptimothy315@gmail.com", "paultimothy028@gmail.com"]));
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+
+    function hasRequiredFields(requiredFields) {
+      return request.resource.data.keys().hasAll(requiredFields);
+    }
+
+    function isValidUser() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['email', 'role', 'name', 'createdAt']) &&
+             hasRequiredFields(['email', 'role']) &&
+             data.email is string &&
+             data.role in ['admin', 'staff'] &&
+             (!('name' in data) || (data.name is string && data.name.size() < 100)) &&
+             (!('createdAt' in data) || data.createdAt == request.time);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidMenuItem() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['name', 'description', 'price', 'category', 'imageUrl', 'isAvailable']) &&
+             hasRequiredFields(['name', 'price', 'category', 'isAvailable']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             (!('description' in data) || (data.description is string && data.description.size() < 1000)) &&
+             data.price is number && data.price >= 0 &&
+             data.category is string && data.category.size() > 0 && data.category.size() < 50 &&
+             (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() < 500)) &&
+             data.isAvailable is bool;
+    }
+
+    function isValidReservation() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['name', 'phone', 'email', 'date', 'time', 'guests', 'specialRequests', 'status', 'createdAt']) &&
+             hasRequiredFields(['name', 'phone', 'date', 'time', 'guests', 'status']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.phone is string && data.phone.size() > 0 && data.phone.size() < 20 &&
+             (!('email' in data) || (data.email is string && data.email.size() < 100)) &&
+             data.date is string && data.date.size() == 10 &&
+             data.time is string && data.time.size() <= 5 &&
+             data.guests is number && data.guests > 0 && data.guests <= 50 &&
+             (!('specialRequests' in data) || (data.specialRequests is string && data.specialRequests.size() < 1000)) &&
+             data.status in ['pending', 'confirmed', 'cancelled'] &&
+             (!('createdAt' in data) || data.createdAt == request.time);
+    }
+
+    function isValidContact() {
+      let data = request.resource.data;
+      return hasOnlyAllowedFields(['name', 'email', 'subject', 'message', 'createdAt']) &&
+             hasRequiredFields(['name', 'email', 'subject', 'message']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.email is string && data.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.subject is string && data.subject.size() > 0 && data.subject.size() < 200 &&
+             data.message is string && data.message.size() > 0 && data.message.size() < 5000 &&
+             (!('createdAt' in data) || data.createdAt == request.time);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // Users can only read their own profile. Admins can read all.
+      allow read: if isOwner(userId) || isAdmin();
+      // Only admins can create or update user roles. 
+      // A user can create their own profile initially but only with a non-admin role unless they are already an admin.
+      allow create: if isAuthenticated() && isValidUser() && 
+                    (isAdmin() || (isOwner(userId) && request.resource.data.role == 'staff'));
+      allow update: if isAdmin() && isValidUser();
+      allow delete: if isAdmin();
+    }
+
+    match /menuItems/{itemId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /reservations/{reservationId} {
+      allow create: if isValidReservation();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /contacts/{contactId} {
+      allow create: if isValidContact();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /blogPosts/{postId} {
+      allow read: if resource.data.status == 'published' || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /testimonials/{testimonialId} {
+      allow read: if resource.data.isActive == true || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+
+    match /media/{mediaId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+  }
+}
