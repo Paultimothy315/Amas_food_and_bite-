@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useSettings } from '../../context/SettingsContext';
 import { X, Plus, Minus, Trash2, MessageCircle, Truck, ShoppingBag, Clock, MapPin, User, Phone, UtensilsCrossed, ArrowLeft, ChevronRight, CheckCircle2, Package } from 'lucide-react';
 import { cn } from '../../lib/utils';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../../lib/firestore-errors';
 
 export default function CartDrawer() {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, cartTotal, addToCart, orderType, setOrderType, clearCart } = useCart();
+  const { settings } = useSettings();
   
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -23,7 +25,7 @@ export default function CartDrawer() {
 
   if (!isCartOpen) return null;
 
-  const whatsappNumber = "2348165117588";
+  const whatsappNumber = settings.whatsappNumber || "2348165117588";
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -33,7 +35,7 @@ export default function CartDrawer() {
   const formatOrderMessage = () => {
     const itemsList = items.map(item => `${item.quantity}x ${item.name} - ₦${(item.price * item.quantity).toLocaleString()}`).join('\n');
     
-    let message = `Hello Ama's Food & Bite, I'd like to place an order!\n\n`;
+    let message = `Hello Ama's Food and Bite, I'd like to place an order!\n\n`;
     message += `*Order Type:* ${orderType === 'takeaway' ? 'Takeaway' : 'Delivery'}\n`;
     message += `*Items:*\n${itemsList}\n`;
     message += `*Total:* ₦${cartTotal.toLocaleString()}\n`;
@@ -88,8 +90,14 @@ export default function CartDrawer() {
       const docRef = await addDoc(collection(db, 'orders'), orderData);
       setOrderId(docRef.id);
 
+      // 4. Save to Local History
+      const localOrders = JSON.parse(localStorage.getItem('ama_orders') || '[]');
+      localStorage.setItem('ama_orders', JSON.stringify([...localOrders, docRef.id]));
+
       // 3. Open WhatsApp
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${formatOrderMessage()}`;
+      
+      // Open in new tab to avoid iFrame "Refused to connect"
       window.open(whatsappUrl, '_blank');
 
       // 3. Show Success
@@ -149,9 +157,8 @@ export default function CartDrawer() {
                 <h3 className="text-2xl font-bold text-secondary">Thank You!</h3>
                 <p className="text-secondary/70">Your order has been received and sent to our team via WhatsApp.</p>
               </div>
-              <div className="bg-white p-6 rounded-2xl border border-border shadow-sm w-full space-y-4">
-                <p className="text-sm text-secondary/60">We'll contact you shortly to confirm your order and provide delivery/pickup details.</p>
-                <div className="pt-4 border-t border-border flex flex-col gap-3">
+              <div className="bg-white p-6 rounded-2xl border border-border shadow-sm w-full">
+                <div className="flex flex-col gap-3">
                   <div>
                     <p className="text-xs font-bold text-secondary/40 uppercase tracking-widest mb-1">Order Status</p>
                     <span className="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold">Pending Confirmation</span>

@@ -21,7 +21,7 @@ interface Order {
   pickupTime?: string;
   items: OrderItem[];
   total: number;
-  status: 'pending' | 'confirmed' | 'ready' | 'delivered' | 'cancelled';
+  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
   createdAt: any;
 }
 
@@ -29,7 +29,7 @@ export default function AdminOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'ready' | 'delivered' | 'cancelled'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'delivered' | 'cancelled'>('all');
 
   useEffect(() => {
     const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
@@ -77,7 +77,6 @@ export default function AdminOrders() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'confirmed': return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'ready': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
       case 'delivered': return 'bg-green-100 text-green-700 border-green-200';
       case 'cancelled': return 'bg-red-100 text-red-700 border-red-200';
       default: return 'bg-yellow-100 text-yellow-700 border-yellow-200';
@@ -113,7 +112,6 @@ export default function AdminOrders() {
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
-            <option value="ready">Ready / Out for Delivery</option>
             <option value="delivered">Delivered</option>
             <option value="cancelled">Cancelled</option>
           </select>
@@ -207,23 +205,7 @@ export default function AdminOrders() {
                           Confirm
                         </button>
                       )}
-                      {order.status === 'confirmed' && (
-                        <button 
-                          onClick={() => handleStatusChange(order.id, 'ready')}
-                          className="flex-1 flex items-center justify-center bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-colors"
-                        >
-                          {order.orderType === 'delivery' ? 'Out for Delivery' : 'Ready for Pickup'}
-                        </button>
-                      )}
-                      {order.status === 'ready' && (
-                        <button 
-                          onClick={() => handleStatusChange(order.id, 'delivered')}
-                          className="flex-1 flex items-center justify-center bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-green-700 transition-colors"
-                        >
-                          Mark Delivered
-                        </button>
-                      )}
-                      {(order.status === 'pending' || order.status === 'confirmed' || order.status === 'ready') && (
+                      {(order.status === 'pending' || order.status === 'confirmed') && (
                         <button 
                           onClick={() => handleStatusChange(order.id, 'cancelled')}
                           className="flex-1 flex items-center justify-center bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-100 transition-colors"

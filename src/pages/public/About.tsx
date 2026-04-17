@@ -10,14 +10,14 @@ export default function About() {
         <div className="mb-12 rounded-3xl overflow-hidden shadow-xl">
           <img 
             src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80" 
-            alt="Ama's Food & Bite Restaurant" 
+            alt="AMA'S FOOD AND BITE Restaurant" 
             className="w-full h-[400px] object-cover"
           />
         </div>
 
         <div className="prose prose-lg max-w-none text-secondary/80 space-y-6">
           <p>
-            Welcome to <strong>Ama's Food & Bite</strong>, where passion for authentic Nigerian flavors meets the convenience of fast service. 
+            Welcome to <strong>AMA'S FOOD AND BITE</strong>, where passion for authentic Nigerian flavors meets the convenience of fast service. 
             Founded with a simple mission: to provide delicious, high-quality meals that don't keep you waiting.
           </p>
           <p>
@@ -30,7 +30,7 @@ export default function About() {
             <li><strong>Fresh Ingredients:</strong> We source our ingredients locally to ensure every bite is fresh and flavorful.</li>
             <li><strong>Authentic Taste:</strong> From our spicy Asun to our rich Egusi soup, we stay true to the roots of Nigerian cuisine.</li>
             <li><strong>Fast Service:</strong> We value your time. Our streamlined kitchen means your food is ready when you need it.</li>
-            <li><strong>Warm Hospitality:</strong> Every customer is treated like family. We want you to feel at home at Ama's.</li>
+            <li><strong>Warm Hospitality:</strong> Every customer is treated like family. We want you to feel at home at AMA'S FOOD AND BITE.</li>
           </ul>
         </div>
 

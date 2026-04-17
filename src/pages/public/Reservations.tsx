@@ -7,6 +7,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { handleFirestoreError, OperationType } from '../../lib/firestore-errors';
 import { Calendar, Clock, Users, MessageSquare, User, Phone, Mail, CheckCircle2 } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 const reservationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -24,6 +25,7 @@ export default function Reservations() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [reservationId, setReservationId] = useState<string | null>(null);
+  const { settings } = useSettings();
 
   const {
     register,
@@ -71,8 +73,8 @@ export default function Reservations() {
       }
 
       // 3. Format WhatsApp Message
-      const whatsappNumber = "2348165117588";
-      let message = `Hello Ama's Food & Bite, I'd like to make a reservation!\n\n`;
+      const whatsappNumber = settings.whatsappNumber || "2348165117588";
+      let message = `Hello Ama's Food and Bite, I'd like to make a reservation!\n\n`;
       message += `*Name:* ${data.name}\n`;
       message += `*Phone:* ${data.phone}\n`;
       if (data.email) message += `*Email:* ${data.email}\n`;
@@ -83,7 +85,7 @@ export default function Reservations() {
 
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       
-      // Open WhatsApp in a new tab
+      // Open in new tab to avoid iFrame "Refused to connect"
       window.open(whatsappUrl, '_blank');
 
       setIsSuccess(true);
@@ -103,7 +105,7 @@ export default function Reservations() {
           <CheckCircle2 className="w-24 h-24 text-green-500 mx-auto mb-6" />
           <h1 className="text-4xl font-serif font-bold mb-4 text-secondary">Reservation Received!</h1>
           <p className="text-lg text-secondary/70 mb-8">
-            Thank you for booking with Ama's Food & Bite. We've redirected you to WhatsApp to finalize your booking. Please send the pre-filled message to confirm your table.
+            Thank you for booking with {settings.siteName}. We've redirected you to WhatsApp to finalize your booking.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {reservationId && (

@@ -8,7 +8,7 @@ export default function Home() {
   const { addToCart } = useCart();
   const { settings } = useSettings();
   const whatsappNumber = settings.whatsappNumber;
-  const whatsappMessage = `Hello ${settings.siteName}, I would like to place an order!`;
+  const whatsappMessage = `Hello Ama's Food and Bite, I would like to place an order!`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -80,7 +80,7 @@ export default function Home() {
               <h2 className="text-4xl font-serif font-bold mb-6 text-secondary">Our Story</h2>
               <h3 className="text-xl font-bold text-primary mb-4">Made with Heart. Served with Speed.</h3>
               <p className="text-lg text-secondary/80 mb-6 leading-relaxed">
-                At Ama's Food & Bite, we believe that fast food shouldn't mean compromising on quality or authentic flavor. 
+                At AMA'S FOOD AND BITE, we believe that fast food shouldn't mean compromising on quality or authentic flavor. 
                 Our chefs use traditional recipes and the freshest local ingredients to bring you the true taste of home, 
                 served with the efficiency of a modern kitchen.
               </p>
@@ -91,7 +91,7 @@ export default function Home() {
             <div className="md:w-1/2">
               <img 
                 src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" 
-                alt="Ama's Food & Bite Interior" 
+                alt="AMA'S FOOD AND BITE Interior" 
                 className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
               />
             </div>
@@ -256,13 +256,13 @@ export default function Home() {
                 <h3 className="font-bold text-lg mb-3 text-secondary text-center">Branches Map</h3>
                 <div className="w-full rounded-2xl overflow-hidden shadow-lg bg-gray-200 h-[450px] border border-border">
                   <iframe 
-                    src="https://maps.google.com/maps?q=Ama's%20Food%20%26%20Bite%20Abuja&t=&z=12&ie=UTF8&iwloc=&output=embed" 
+                    src="https://maps.google.com/maps?q=AMA'S%20FOOD%20AND%20BITE%20Abuja&t=&z=12&ie=UTF8&iwloc=&output=embed" 
                     width="100%" 
                     height="450" 
                     style={{ border: 0 }} 
                     allowFullScreen 
                     loading="lazy"
-                    title="Ama's Food & Bite Branches Map"
+                    title="AMA'S FOOD AND BITE Branches Map"
                   ></iframe>
                 </div>
               </div>

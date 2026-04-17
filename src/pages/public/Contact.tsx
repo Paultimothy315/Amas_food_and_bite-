@@ -60,17 +60,17 @@ export default function Contact() {
         console.warn("Tally submission failed:", tallyError);
       }
 
-      // 3. Format WhatsApp Message
+      // format WhatsApp message
       const whatsappNumber = settings.whatsappNumber;
-      let message = `Hello ${settings.siteName}, I have an inquiry!\n\n`;
-      message += `*Name:* ${data.name}\n`;
-      message += `*Email:* ${data.email}\n`;
-      message += `*Subject:* ${data.subject}\n`;
-      message += `*Message:* ${data.message}`;
+      let messageText = `Hello Ama's Food and Bite, I have an inquiry!\n\n`;
+      messageText += `*Name:* ${data.name}\n`;
+      messageText += `*Email:* ${data.email}\n`;
+      messageText += `*Subject:* ${data.subject}\n`;
+      messageText += `*Message:* ${data.message}`;
 
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageText)}`;
       
-      // Open WhatsApp in a new tab
+      // Open in new tab to avoid iFrame "Refused to connect"
       window.open(whatsappUrl, '_blank');
 
       setIsSuccess(true);
@@ -175,13 +175,13 @@ export default function Contact() {
                     <p className="text-secondary/70 mb-4">{settings.addressLokogoma}</p>
                     <div className="w-full rounded-xl overflow-hidden shadow-sm bg-gray-200 h-[300px] border border-border">
                       <iframe 
-                        src="https://maps.google.com/maps?q=Ama's%20Food%20%26%20Bite%20Lokogoma%20Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        src="https://maps.google.com/maps?q=AMA'S%20FOOD%20AND%20BITE%20Lokogoma%20Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
                         style={{ border: 0 }} 
                         allowFullScreen 
                         loading="lazy"
-                        title="Ama's Food & Bite Lokogoma Map"
+                        title="AMA'S FOOD AND BITE Lokogoma Map"
                       ></iframe>
                     </div>
                   </div>
@@ -194,13 +194,13 @@ export default function Contact() {
                     <p className="text-secondary/70 mb-4">{settings.addressDurumi}</p>
                     <div className="w-full rounded-xl overflow-hidden shadow-sm bg-gray-200 h-[300px] border border-border">
                       <iframe 
-                        src="https://maps.google.com/maps?q=Ama's%20Food%20%26%20Bite%20Durumi%20Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        src="https://maps.google.com/maps?q=AMA'S%20FOOD%20AND%20BITE%20Durumi%20Abuja&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
                         style={{ border: 0 }} 
                         allowFullScreen 
                         loading="lazy"
-                        title="Ama's Food & Bite Durumi Map"
+                        title="AMA'S FOOD AND BITE Durumi Map"
                       ></iframe>
                     </div>
                   </div>

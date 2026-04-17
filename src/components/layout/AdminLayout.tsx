@@ -22,7 +22,7 @@ export default function AdminLayout() {
       <aside className="w-64 bg-surface border-r border-border flex flex-col">
         <div className="p-6 border-b border-border">
           <h2 className="text-xl font-serif font-bold text-secondary">Admin Dashboard</h2>
-          <p className="text-sm text-secondary/70">Ama's Food & Bite</p>
+          <p className="text-sm text-secondary/70">AMA'S FOOD AND BITE</p>
         </div>
         
         <nav className="flex-grow p-4 space-y-2">

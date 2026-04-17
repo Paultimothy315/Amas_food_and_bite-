@@ -49,10 +49,10 @@ export default function TrackOrder() {
   const handleStatusChange = (currentData: any) => {
     if (!notificationsEnabled) return;
 
-    const restaurantName = settings.siteName || "Ama's Food & Bite";
+    const restaurantName = settings.siteName || "AMA'S FOOD AND BITE";
     
     if (type === 'order') {
-      if (currentData.status === 'ready') {
+      if (currentData.status === 'confirmed') {
         if (currentData.orderType === 'takeaway') {
           showNotification(`Your order is ready! 🍕`, {
             body: `Hi ${currentData.customerName}, your meal at ${restaurantName} is hot and ready for pickup. See you soon!`,
@@ -108,7 +108,7 @@ export default function TrackOrder() {
 
   const isOrder = type === 'order';
   const statusSteps = isOrder 
-    ? ['pending', 'confirmed', 'ready', 'delivered']
+    ? ['pending', 'confirmed', 'delivered']
     : ['pending', 'confirmed', 'cancelled'];
 
   const currentStepIndex = statusSteps.indexOf(data.status);
@@ -239,21 +239,18 @@ export default function TrackOrder() {
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
                 {data.status === 'pending' ? <Clock className="text-yellow-500 animate-pulse" size={32} /> : 
                  data.status === 'confirmed' ? <CheckCircle2 className="text-green-500" size={32} /> :
-                 data.status === 'ready' ? <Package className="text-blue-500" size={32} /> :
                  data.status === 'delivered' ? <Truck className="text-primary" size={32} /> :
                  <Utensils className="text-secondary/20" size={32} />}
               </div>
               <div>
                 <h4 className="font-bold text-secondary">
                   {data.status === 'pending' ? 'Waiting for confirmation' :
-                   data.status === 'confirmed' ? 'Order confirmed!' :
-                   data.status === 'ready' ? 'Ready for pickup!' :
+                   data.status === 'confirmed' ? (isOrder ? (data.orderType === 'delivery' ? 'Out for delivery!' : 'Ready for pickup!') : 'Reservation confirmed!') :
                    data.status === 'delivered' ? 'Enjoy your meal!' : 'Status updated'}
                 </h4>
                 <p className="text-sm text-secondary/60 mt-1">
                   {data.status === 'pending' ? 'Our team is reviewing your request. We\'ll notify you once it\'s confirmed.' :
-                   data.status === 'confirmed' ? 'We are preparing your delicious meal right now.' :
-                   data.status === 'ready' ? 'Your meal is hot and ready. See you soon!' :
+                   data.status === 'confirmed' ? (isOrder ? (data.orderType === 'delivery' ? 'Your order is on its way.' : 'Your meal is hot and ready. See you soon!') : 'We look forward to seeing you!') :
                    data.status === 'delivered' ? 'Thank you for choosing Ama\'s Food & Bite.' : 'Your status has been updated.'}
                 </p>
               </div>
@@ -276,7 +273,7 @@ export default function TrackOrder() {
               Order More
             </Link>
             <a 
-              href={`https://wa.me/${settings.phoneNumber || '2348165117588'}`}
+              href={`https://wa.me/${(settings.whatsappNumber || '2348165117588').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hello Ama's Food and Bite, I need support with my ${type} #${id?.slice(-8).toUpperCase()}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-white border border-border text-secondary text-center py-3 rounded-xl font-bold hover:bg-muted transition-all flex items-center justify-center gap-2"

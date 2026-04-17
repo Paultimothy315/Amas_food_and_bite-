@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, X, UtensilsCrossed, ShoppingCart, Instagram, Facebook } from 'lucide-react';
+import { Menu, X, UtensilsCrossed, ShoppingCart, Instagram, Facebook, History } from 'lucide-react';
 import WhatsAppButton from '../ui/WhatsAppButton';
 import CartDrawer from '../ui/CartDrawer';
 import { useCart } from '../../context/CartContext';
@@ -49,7 +49,7 @@ export default function PublicLayout() {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const businessName = "Ama's Food & Bite";
+  const businessName = "AMA'S FOOD AND BITE";
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -98,6 +98,18 @@ export default function PublicLayout() {
                 </span>
               )}
             </button>
+
+            <Link
+              to="/orders"
+              className={cn(
+                'font-medium hover:text-primary transition-colors flex items-center gap-1.5',
+                isScrolled ? 'text-secondary-foreground' : 'text-foreground',
+                location.pathname === '/orders' && 'text-primary'
+              )}
+            >
+              <History size={18} />
+              History
+            </Link>
 
             <Link
               to="/menu"
@@ -152,6 +164,17 @@ export default function PublicLayout() {
                   {link.name}
                 </Link>
               ))}
+              
+              <Link
+                to="/orders"
+                className={cn(
+                  'text-lg font-medium p-2 hover:bg-secondary-foreground/10 rounded-md flex items-center gap-2',
+                  location.pathname === '/orders' && 'text-primary'
+                )}
+              >
+                <History size={20} /> Order History
+              </Link>
+
               <Link
                 to="/menu"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -212,6 +235,7 @@ export default function PublicLayout() {
               <li><Link to="/menu" className="text-secondary-foreground/70 hover:text-white transition-colors">Menu</Link></li>
               <li><Link to="/about" className="text-secondary-foreground/70 hover:text-white transition-colors">About Us</Link></li>
               <li><Link to="/reservations" className="text-secondary-foreground/70 hover:text-white transition-colors">Reservations</Link></li>
+              <li><Link to="/orders" className="text-secondary-foreground/70 hover:text-white transition-colors">Order History</Link></li>
               <li><Link to="/blog" className="text-secondary-foreground/70 hover:text-white transition-colors">Blog</Link></li>
             </ul>
           </div>

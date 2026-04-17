@@ -128,7 +128,9 @@ service cloud.firestore {
     }
 
     match /orders/{orderId} {
-      allow read, create, update, delete: if isAdmin();
+      allow create: if true;
+      allow read: if true; // Allow tracking and history by ID
+      allow update, delete: if isAdmin();
     }
 
     match /media/{mediaId} {

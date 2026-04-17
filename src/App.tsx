@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import { CartProvider } from './context/CartContext';
 import { SettingsProvider } from './context/SettingsContext';
 import ScrollToTop from './components/utils/ScrollToTop';
+import { Toaster } from 'sonner';
 
 // Public Pages
 import Home from './pages/public/Home';
@@ -22,6 +23,7 @@ import Contact from './pages/public/Contact';
 import PrivacyPolicy from './pages/public/PrivacyPolicy';
 import TermsAndConditions from './pages/public/TermsAndConditions';
 import TrackOrder from './pages/public/TrackOrder';
+import OrderHistory from './pages/public/OrderHistory';
 
 // Admin Pages
 import Login from './pages/admin/Login';
@@ -44,6 +46,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 export default function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-center" richColors />
       <SettingsProvider>
         <CartProvider>
           <Router>
@@ -58,6 +61,7 @@ export default function App() {
                 <Route path="blog" element={<Blog />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="track/:type/:id" element={<TrackOrder />} />
+                <Route path="orders" element={<OrderHistory />} />
                 <Route path="privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="terms-and-conditions" element={<TermsAndConditions />} />
               </Route>

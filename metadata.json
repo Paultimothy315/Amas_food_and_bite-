@@ -1,5 +1,6 @@
 {
-  "name": "Ama's Food & Bite",
+  "name": "AMA'S FOOD AND BITE",
   "description": "A complete, production-ready website for a fast food restaurant with online ordering via WhatsApp and table reservations.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }

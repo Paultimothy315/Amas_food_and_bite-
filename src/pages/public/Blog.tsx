@@ -87,7 +87,7 @@ export default function Blog() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-serif font-bold mb-4 text-secondary">Latest from Our Kitchen</h1>
-          <p className="text-secondary/70 text-lg max-w-2xl mx-auto">News, updates, and stories from Ama's Food & Bite.</p>
+          <p className="text-secondary/70 text-lg max-w-2xl mx-auto">News, updates, and stories from AMA'S FOOD AND BITE.</p>
         </div>
 
         <div className="max-w-md mx-auto mb-16 relative">

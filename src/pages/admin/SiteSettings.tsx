@@ -27,7 +27,7 @@ interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-  siteName: "Ama's Food & Bite",
+  siteName: "AMA'S FOOD AND BITE",
   siteDescription: "Authentic Nigerian native dishes and fast food favorites.",
   contactEmail: "info@amasfoodandbite.com",
   contactPhone: "0816 511 7588",
@@ -38,7 +38,7 @@ const defaultSettings: SiteSettings = {
   instagramUrl: "https://instagram.com/amasfoodandbite",
   facebookUrl: "https://facebook.com/amasfoodandbite",
   twitterUrl: "",
-  metaTitle: "Ama's Food & Bite | Authentic Nigerian Native Dishes & Fast Food",
+  metaTitle: "AMA'S FOOD AND BITE | Authentic Nigerian Native Dishes & Fast Food",
   metaDescription: "Experience the best of Nigerian native dishes and fast food favorites in Abuja. Fast delivery, fresh ingredients, and authentic taste.",
   openingHours: {
     monFri: "9:00 AM – 10:00 PM",

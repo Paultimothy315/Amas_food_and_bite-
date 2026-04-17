@@ -72,7 +72,7 @@ export default function AdminDashboard() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-serif font-bold text-secondary">Welcome Back, Admin</h1>
-        <p className="text-secondary/70">Here's what's happening at Ama's Food & Bite today.</p>
+        <p className="text-secondary/70">Here's what's happening at AMA'S FOOD AND BITE today.</p>
       </div>
 
       {/* Stats Grid */}

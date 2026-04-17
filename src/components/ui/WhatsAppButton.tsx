@@ -1,8 +1,10 @@
 import { MessageCircle } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 export default function WhatsAppButton() {
-  const whatsappNumber = "+2348165117588"; // Fallback
-  const message = "Hi Ama's Food & Bite, I'd like to place an order.";
+  const { settings } = useSettings();
+  const whatsappNumber = settings.whatsappNumber || "2348165117588";
+  const message = `Hello Ama's Food and Bite, I'd like to place an order.`;
   const url = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
 
   return (

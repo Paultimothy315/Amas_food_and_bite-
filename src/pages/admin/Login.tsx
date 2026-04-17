@@ -51,7 +51,7 @@ export default function Login() {
         <div className="flex flex-col items-center mb-8">
           <UtensilsCrossed className="text-primary w-12 h-12 mb-4" />
           <h1 className="text-3xl font-serif font-bold text-secondary">Admin Login</h1>
-          <p className="text-secondary/70">Ama's Food & Bite Dashboard</p>
+          <p className="text-secondary/70">AMA'S FOOD AND BITE Dashboard</p>
         </div>
 
         {error && (
